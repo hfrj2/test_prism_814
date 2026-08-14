@@ -2,9 +2,73 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:prism="http://prismlibrary.com/"
-        prism:ViewModelLocator.AutoWireViewModel="True"
-        Title="{Binding Title}" Height="350" Width="525" >
+        xmlns:models="clr-namespace:test_prism_814.Models"
+        Title="Prism 数据绑定导航测试" 
+        Height="500" Width="850">
+
+    <!-- 窗口资源：定义菜单项的显示模板 -->
+    <Window.Resources>
+        <!-- 这个 DataTemplate 告诉 ItemsControl 如何绘制每一个菜单项 -->
+        <DataTemplate DataType="{x:Type models:MenuItemModel}">
+            <Border CornerRadius="5" BorderThickness="1" BorderBrush="AliceBlue">
+            <Button Command="{Binding DataContext.NavigateCommand, 
+                              RelativeSource={RelativeSource AncestorType=Window}}"
+                    CommandParameter="{Binding ViewName}"
+                    Height="55" 
+                    Margin="8,3,8,3"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    HorizontalContentAlignment="Left"
+                    Cursor="Hand">
+
+                <!-- 按钮内部：图标 + 文字 横向排列 -->
+                <StackPanel Orientation="Horizontal" Margin="20,0,0,0">
+                    <!-- 图标显示 -->
+                    <TextBlock Text="{Binding Icon}" 
+                               FontFamily="Segoe MDL2 Assets" 
+                               FontSize="22" 
+                               VerticalAlignment="Center"
+                               Margin="0,0,18,0"/>
+                    <!-- 文字显示 -->
+                    <TextBlock Text="{Binding Header}" 
+                               FontSize="16" 
+                               VerticalAlignment="Center"
+                               Foreground="#333333"/>
+                </StackPanel>
+
+                <!-- 鼠标悬停时的背景变化（提升交互感） -->
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Background" Value="Transparent"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#E0E0E0"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+            </Border>
+        </DataTemplate>
+    </Window.Resources>
+
+    <!-- 主布局：左侧菜单栏（宽度 200） + 右侧内容区域 -->
     <Grid>
-        <ContentControl prism:RegionManager.RegionName="ContentRegion" />
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="8*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- 左侧菜单栏：使用 ItemsControl 绑定 MenuItems 集合 -->
+        <ItemsControl Grid.Column="0" 
+                      ItemsSource="{Binding MenuItems}"
+                      Background="#F5F5F5"
+                      VerticalAlignment="Top"
+                      Margin="0,10,0,0"/>
+
+        <!-- 右侧内容区域：这就是 Prism 的“插座”（Region） -->
+        <ContentControl Grid.Column="1" 
+                        prism:RegionManager.RegionName="ContentRegion" 
+                        Margin="15,10,15,10"/>
     </Grid>
 </Window>
