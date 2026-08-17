@@ -8,7 +8,7 @@
     Title="Prism 数据绑定导航测试"
     Width="850"
     Height="500"
-    prism:ViewModelLocator.AutoWireViewModel="False"
+  prism:ViewModelLocator.AutoWireViewModel="False"
     WindowStartupLocation="CenterScreen">
 
     <!--  窗口资源：定义菜单项的显示模板  -->
