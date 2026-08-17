@@ -1,0 +1,60 @@
+﻿<Window x:Class="test_prism_814.Views.LoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:prism="http://prismlibrary.com/"
+        prism:ViewModelLocator.AutoWireViewModel="True"
+        Title="用户登录" Height="400" Width="450"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize">
+
+    <Grid Background="#F8F9FA">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="320">
+
+            <!-- 标题 -->
+            <TextBlock Text="📋 便签管理系统" 
+                       FontSize="28" FontWeight="Bold" 
+                       HorizontalAlignment="Center"
+                       Foreground="#2C3E50"
+                       Margin="0,0,0,30"/>
+
+            <!-- 账号 -->
+            <TextBlock Text="账号" FontWeight="SemiBold" Margin="0,0,0,5"/>
+            <TextBox Text="{Binding Account}" 
+                     FontSize="16" Padding="10"
+                     Margin="0,0,0,15"
+                     BorderBrush="#CCC" BorderThickness="1"/>
+
+            <!-- 密码 -->
+            <TextBlock Text="密码" FontWeight="SemiBold" Margin="0,0,0,5"/>
+            <PasswordBox x:Name="PasswordBox"
+                         FontSize="16" Padding="10"
+                         Margin="0,0,0,15"
+                         BorderBrush="#CCC" BorderThickness="1"
+                         PasswordChanged="PasswordBox_PasswordChanged"/>
+
+            <!-- 错误信息 -->
+            <TextBlock Text="{Binding ErrorMessage}" 
+                       Foreground="Red" 
+                       FontSize="13"
+                       HorizontalAlignment="Center"
+                       Margin="0,0,0,15"
+                       Visibility="{Binding ErrorMessage, Converter={StaticResource StringToVisibilityConverter}}"/>
+
+            <!-- 登录按钮 -->
+            <Button Content="登 录" 
+                    Command="{Binding LoginCommand}"
+                    Height="45" FontSize="16" FontWeight="Bold"
+                    Background="#3498DB" Foreground="White"
+                    BorderThickness="0" Cursor="Hand"
+                    Margin="0,0,0,12"/>
+
+            <!-- 跳转注册 -->
+            <TextBlock Text="还没有账号？去注册 →" 
+                       Foreground="#3498DB" 
+                       FontSize="14"
+                       HorizontalAlignment="Center"
+                       Cursor="Hand"
+                       MouseLeftButtonDown="GoToRegister_MouseLeftButtonDown"/>
+        </StackPanel>
+    </Grid>
+</Window>
