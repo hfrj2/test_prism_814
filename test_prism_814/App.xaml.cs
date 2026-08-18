@@ -29,6 +29,7 @@ namespace test_prism_814
         {
             base.OnInitialized();
             // 启动登录窗口
+            Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
             var loginWindow = Container.Resolve<LoginWindow>();
             loginWindow.Show();
         }

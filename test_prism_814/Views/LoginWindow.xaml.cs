@@ -1,8 +1,6 @@
 ﻿using Prism.Ioc;
 using System;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
 using test_prism_814.Models;
 using test_prism_814.ViewModels;
 
@@ -10,16 +8,37 @@ namespace test_prism_814.Views
 {
     public partial class LoginWindow : Window
     {
-        private IContainerProvider _containerProvider;
+        private bool _isLoggingOut = false; // 标记是否正在登录成功
+
         public LoginWindow(IContainerProvider containerProvider)
         {
-            _containerProvider = containerProvider;
             InitializeComponent();
-            // 订阅登录成功事件
+            this.Closed += LoginWindow_Closed;
+
             var vm = DataContext as LoginWindowViewModel;
             if (vm != null)
             {
-                vm.OnLoginSuccess = OnLoginSuccess;
+                vm.OnLoginSuccess = (user) => OnLoginSuccess(user, containerProvider);
+            }
+        }
+
+        private void OnLoginSuccess(User user, IContainerProvider containerProvider)
+        {
+            _isLoggingOut = true; // ✅ 登录成功，关闭时不退出程序
+
+            var mainWindow = containerProvider.Resolve<MainWindow>(
+                new (Type, object)[] { (typeof(User), user) }
+            );
+            mainWindow.Show();
+            this.Close();
+        }
+
+        private void LoginWindow_Closed(object sender, System.EventArgs e)
+        {
+            // ✅ 如果登录窗口被直接关闭（非登录成功），则退出程序
+            if (!_isLoggingOut)
+            {
+                Application.Current.Shutdown();
             }
         }
 
@@ -28,19 +47,11 @@ namespace test_prism_814.Views
             var vm = DataContext as LoginWindowViewModel;
             if (vm != null)
             {
-                vm.Password = PasswordBox.Password;
+                vm.Password = ((System.Windows.Controls.PasswordBox)sender).Password;
             }
         }
 
-        private void OnLoginSuccess(Models.User user)
-        {
-            // 登录成功，打开主窗口
-            var mainWindow = _containerProvider.Resolve<MainWindow>(new (Type Type, object Instance)[] { (typeof(User), user) });
-            mainWindow.Show();
-            this.Close();
-        }
-
-        private void GoToRegister_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void GoToRegister_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             var registerWindow = new RegisterWindow();
             registerWindow.ShowDialog();

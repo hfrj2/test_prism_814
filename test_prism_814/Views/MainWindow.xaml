@@ -8,7 +8,7 @@
     Title="Prism 数据绑定导航测试"
     Width="1150"
     Height="600"
-  prism:ViewModelLocator.AutoWireViewModel="False"
+    prism:ViewModelLocator.AutoWireViewModel="False"
     WindowStartupLocation="CenterScreen">
 
     <!--  窗口资源：定义菜单项的显示模板  -->
@@ -90,7 +90,7 @@
             <ColumnDefinition Width="2*" />
             <ColumnDefinition Width="8*" />
         </Grid.ColumnDefinitions>
-        
+
 
         <!--  左侧菜单栏：使用 ItemsControl 绑定 MenuItems 集合  -->
         <Grid Grid.Column="0" Background="White">
@@ -101,25 +101,35 @@
             </Grid.RowDefinitions>
 
 
-            <Border Grid.Row="0" Background="#8BAE66" Padding="10" Margin="0,0,0,5">
-                <TextBlock Text="{Binding CurrentUserDisplay}" 
-                           FontSize="14" FontWeight="SemiBold"
-                           HorizontalAlignment="Center"
-                           Foreground="#2C3E50"/>
+            <Border
+                Grid.Row="0"
+                Margin="0,0,0,5"
+                Padding="10"
+                Background="#8BAE66">
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    Foreground="#2C3E50"
+                    Text="{Binding CurrentUserDisplay}" />
             </Border>
 
+            <UniformGrid Grid.Row="1" Columns="2">
 
-            <TextBlock
-                Grid.Row="1"
-                Margin="10"
-                Padding="5"
-                HorizontalAlignment="Center"
-                FontFamily="FangSong"
-                FontSize="24"
-                FontWeight="Bold"
-                Foreground="ForestGreen"
-                Text="菜单" />
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    FontFamily="FangSong"
+                    FontSize="24"
+                    FontWeight="Bold"
+                    Foreground="ForestGreen"
+                    Text="菜单" />
 
+                <Button
+                    Background="#EBD5AB"
+                    Content="登录界面"
+                    Style="{StaticResource RoundedTransparentButtonStyle}"
+                     Click="BackToLogin_Click" />
+            </UniformGrid>
             <ItemsControl
                 Grid.Row="2"
                 Background="#F5F5F5"
