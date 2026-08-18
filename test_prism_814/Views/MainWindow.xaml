@@ -90,16 +90,27 @@
             <ColumnDefinition Width="2*" />
             <ColumnDefinition Width="8*" />
         </Grid.ColumnDefinitions>
+        
 
         <!--  左侧菜单栏：使用 ItemsControl 绑定 MenuItems 集合  -->
         <Grid Grid.Column="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
 
+
+            <Border Grid.Row="0" Background="#E8E8E8" Padding="10" Margin="0,0,0,5">
+                <TextBlock Text="{Binding CurrentUserDisplay}" 
+                           FontSize="14" FontWeight="SemiBold"
+                           HorizontalAlignment="Center"
+                           Foreground="#2C3E50"/>
+            </Border>
+
+
             <TextBlock
-                Grid.Row="0"
+                Grid.Row="1"
                 Margin="10"
                 Padding="5"
                 HorizontalAlignment="Center"
@@ -110,7 +121,7 @@
                 Text="菜单" />
 
             <ItemsControl
-                Grid.Row="1"
+                Grid.Row="2"
                 Background="#F5F5F5"
                 ItemsSource="{Binding MenuItems}" />
 

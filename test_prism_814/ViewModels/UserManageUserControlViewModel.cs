@@ -30,20 +30,26 @@ namespace test_prism_814.ViewModels
             get => _selectedUser;
             set
             {
-                SetProperty(ref _selectedUser, value);
-                if (value != null)
+                if (SetProperty(ref _selectedUser, value))
                 {
-                    Account = value.Account;
-                    Password = value.Password;
-                    Phone = value.Phone;
-                    Address = value.Address;
+                    if (value != null)
+                    {
+                        Account = value.Account;
+                        Password = value.Password;
+                        Phone = value.Phone;
+                        Address = value.Address;
+                    }
+                    else
+                    {
+                        // 清空表单字段，但不再调用 ClearForm()
+                        Account = string.Empty;
+                        Password = string.Empty;
+                        Phone = string.Empty;
+                        Address = string.Empty;
+                    }
+                    // 刷新删除按钮状态
+                    (DeleteCommand as DelegateCommand)?.RaiseCanExecuteChanged();
                 }
-                else
-                {
-                    ClearForm();
-                }
-                // 刷新删除按钮状态
-                (DeleteCommand as DelegateCommand)?.RaiseCanExecuteChanged();
             }
         }
 
