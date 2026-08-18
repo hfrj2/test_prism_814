@@ -8,6 +8,7 @@
     Title="Prism 数据绑定导航测试"
     Width="1150"
     Height="600"
+  
     prism:ViewModelLocator.AutoWireViewModel="False"
     WindowStartupLocation="CenterScreen">
 

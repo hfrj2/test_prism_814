@@ -15,8 +15,15 @@ namespace test_prism_814.Views
             var region = ContainerLocator.Current.Resolve<IRegionManager>();
             this.DataContext = new MainWindowViewModel(region, currentUser);
             RegionManager.SetRegionManager(A, region);
+
+            // ✅ 直接在构造函数中导航到便签管理
+            region.RequestNavigate("ContentRegion", "NoteManageUserControl");
         }
 
+        // ✅ 窗口加载完成后自动导航到便签管理
+      
+
+        // ✅ 点击按钮回到登录
         private void BackToLogin_Click(object sender, RoutedEventArgs e)
         {
             // 清理全局区域
@@ -27,7 +34,6 @@ namespace test_prism_814.Views
                 globalRegionManager.Regions.Remove(region.Name);
             }
 
-            // 打开登录窗口（不绑定 Closed 事件）
             var loginWindow = ContainerLocator.Current.Resolve<LoginWindow>();
             Application.Current.MainWindow = loginWindow;
             loginWindow.Show();
@@ -39,7 +45,6 @@ namespace test_prism_814.Views
         protected override void OnClosed(System.EventArgs e)
         {
             base.OnClosed(e);
-            // 如果通过 X 关闭，且程序未退出，则回到登录
             if (Application.Current.MainWindow == null || Application.Current.MainWindow == this)
             {
                 var globalRegionManager = ContainerLocator.Current.Resolve<IRegionManager>();
