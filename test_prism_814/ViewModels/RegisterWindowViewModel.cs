@@ -14,6 +14,8 @@ namespace test_prism_814.ViewModels
     {
         private readonly UserRepository _userRepository;
 
+        public event Action ClearPasswordBoxes;
+
         private string _account;
         public string Account
         {
@@ -109,12 +111,13 @@ namespace test_prism_814.ViewModels
             MessageBox.Show("注册成功！请返回登录。", "提示", MessageBoxButton.OK, MessageBoxImage.Information);
             ErrorMessage = string.Empty;
 
-            // 清空表单
+            // 清空表单字段
             Account = string.Empty;
-            Password = string.Empty;
-            ConfirmPassword = string.Empty;
             Phone = string.Empty;
             Address = string.Empty;
+
+            // ✅ 触发清空 PasswordBox 的事件
+            ClearPasswordBoxes?.Invoke();
         }
 
         private void GoToLogin()
