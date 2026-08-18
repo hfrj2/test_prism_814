@@ -5,14 +5,14 @@
              prism:ViewModelLocator.AutoWireViewModel="True"
              Background="White">
 
-    <Grid Margin="15">
+    <Grid >
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="280"/>
+            <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
         <!-- 左侧：用户列表 -->
-        <Border Grid.Column="0" Background="#F5F5F5" CornerRadius="8" Padding="10">
+        <Border Grid.Column="0" Background="#8BAE66" CornerRadius="8" Padding="10">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -43,17 +43,32 @@
 
                 <!-- 用户列表 -->
                 <ListBox Grid.Row="2" 
-                         ItemsSource="{Binding Users}" 
-                         SelectedItem="{Binding SelectedUser, Mode=TwoWay}"
-                         Background="Transparent" BorderThickness="0">
+         ItemsSource="{Binding Users}" 
+         SelectedItem="{Binding SelectedUser, Mode=TwoWay}"
+         Background="Transparent" 
+         BorderThickness="0">
+
+                    <!-- ✅ 让每个 Item 填满宽度 -->
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                            <Setter Property="Padding" Value="0" />
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <Border Background="White" CornerRadius="6" Padding="10" Margin="0,5">
+                            <!-- ✅ Border 宽度填满父容器 -->
+                            <Border Background="White" 
+                    CornerRadius="6" 
+                    Padding="10" 
+                    Margin="0,5"
+                    HorizontalAlignment="Stretch">
                                 <StackPanel>
                                     <TextBlock Text="{Binding Account}" FontWeight="Bold" FontSize="14"/>
-                                    <TextBlock Text="{Binding Phone}" Foreground="#666" FontSize="12"/>
-                                    <TextBlock Text="{Binding Address}" Foreground="#999" FontSize="12"
-                                               TextTrimming="CharacterEllipsis" MaxWidth="200"/>
+                                    <TextBlock Text="{Binding Phone}" Foreground="#666" FontSize="12" MaxWidth="320"/>
+                                    <TextBlock Text="{Binding Address}" Foreground="#999" FontSize="12" 
+                               TextTrimming="CharacterEllipsis" />
                                 </StackPanel>
                             </Border>
                         </DataTemplate>
@@ -63,22 +78,27 @@
         </Border>
 
         <!-- 右侧：编辑区域 -->
-        <StackPanel Grid.Column="1" Margin="20,0,0,0">
-            <TextBlock Text="✏️ 编辑用户" FontSize="18" FontWeight="Bold" Margin="0,0,0,15"/>
+        <Border Background="#8BAE66" Grid.Column="1" Margin="20,0,0,0" Padding="10" CornerRadius="8">
+        <Grid >
+                <StackPanel>
+            <TextBlock Text="✏️ 编辑用户" FontSize="18" FontWeight="Bold" Margin="0,0,0,10"/>
 
-            <TextBlock Text="账号" FontWeight="SemiBold" Margin="0,5"/>
+                    <TextBlock Text="账号" FontWeight="SemiBold" Margin="0,5" FontSize="14"/>
             <TextBox Text="{Binding Account}" FontSize="16" Padding="8" Height="40"/>
 
-            <TextBlock Text="密码" FontWeight="SemiBold" Margin="0,10,0,5"/>
+                    <TextBlock Text="密码" FontWeight="SemiBold" Margin="0,10,0,5" FontSize="14"/>
             <TextBox Text="{Binding Password}" FontSize="16" Padding="8" Height="40"/>
 
-            <TextBlock Text="电话" FontWeight="SemiBold" Margin="0,10,0,5"/>
+                    <TextBlock Text="电话" FontWeight="SemiBold" Margin="0,10,0,5" FontSize="14"/>
             <TextBox Text="{Binding Phone}" FontSize="16" Padding="8" Height="40"/>
 
-            <TextBlock Text="地址" FontWeight="SemiBold" Margin="0,10,0,5"/>
+                    <TextBlock Text="地址" FontWeight="SemiBold" Margin="0,10,0,5" FontSize="14"/>
             <TextBox Text="{Binding Address}" FontSize="16" Padding="8" Height="40"/>
-
-            <StackPanel Orientation="Horizontal" Margin="0,15,0,0">
+                </StackPanel>
+            
+            
+            
+                <StackPanel Orientation="Horizontal"  VerticalAlignment="Bottom">
                 <Button Content="💾 保存" 
                         Command="{Binding SaveCommand}"
                         Width="100" Height="40" Margin="0,0,10,0"
@@ -100,6 +120,8 @@
                         BorderThickness="0" Cursor="Hand"
                         Style="{StaticResource RoundedTransparentButtonStyle}"/>
             </StackPanel>
-        </StackPanel>
+               
+            </Grid>
+        </Border>
     </Grid>
 </UserControl>

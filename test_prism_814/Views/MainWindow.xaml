@@ -6,8 +6,8 @@
     xmlns:models="clr-namespace:test_prism_814.Models"
     xmlns:prism="http://prismlibrary.com/"
     Title="Prism 数据绑定导航测试"
-    Width="850"
-    Height="500"
+    Width="1150"
+    Height="600"
   prism:ViewModelLocator.AutoWireViewModel="False"
     WindowStartupLocation="CenterScreen">
 
@@ -41,7 +41,7 @@
                 <!--  ✅ 正确的圆角按钮样式：通过 ControlTemplate 实现  -->
                 <Button.Style>
                     <Style TargetType="Button">
-                        <Setter Property="Background" Value="Transparent" />
+                        <Setter Property="Background" Value="#8BAE66" />
                         <Setter Property="BorderBrush" Value="#CCCCCC" />
                         <Setter Property="BorderThickness" Value="1" />
                         <Setter Property="Template">
@@ -64,7 +64,7 @@
                                     </Border>
                                     <ControlTemplate.Triggers>
                                         <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter TargetName="Border" Property="Background" Value="#E8E8E8" />
+                                            <Setter TargetName="Border" Property="Background" Value="#628141" />
                                             <Setter TargetName="Border" Property="BorderBrush" Value="#999999" />
                                         </Trigger>
                                         <Trigger Property="IsPressed" Value="True">
@@ -93,7 +93,7 @@
         
 
         <!--  左侧菜单栏：使用 ItemsControl 绑定 MenuItems 集合  -->
-        <Grid Grid.Column="0">
+        <Grid Grid.Column="0" Background="White">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="auto" />
@@ -101,7 +101,7 @@
             </Grid.RowDefinitions>
 
 
-            <Border Grid.Row="0" Background="#E8E8E8" Padding="10" Margin="0,0,0,5">
+            <Border Grid.Row="0" Background="#8BAE66" Padding="10" Margin="0,0,0,5">
                 <TextBlock Text="{Binding CurrentUserDisplay}" 
                            FontSize="14" FontWeight="SemiBold"
                            HorizontalAlignment="Center"

@@ -8,11 +8,11 @@
     <Grid >
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="6*"/>
-            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition Width="4.5*"/>
         </Grid.ColumnDefinitions>
 
         <!-- ============ 左侧：便签列表 + 搜索框 ============ -->
-        <Border Grid.Column="0" Background="#F5F5F5" CornerRadius="8" Padding="10">
+        <Border Grid.Column="0" Background="#8BAE66" CornerRadius="8" Padding="10">
             <Grid>
                 <!-- 用 Grid 替代 StackPanel -->
                 <Grid.RowDefinitions>
@@ -51,24 +51,46 @@
 
                 <!-- 便签列表：自动填充剩余高度，滚动条自动出现 -->
                 <ListBox Grid.Row="2" 
-                 ItemsSource="{Binding Notes}" 
-                 SelectedItem="{Binding SelectedNote, Mode=TwoWay}"
-                 Background="Transparent"
-                     
-                 BorderThickness="0">
+         ItemsSource="{Binding Notes}" 
+         SelectedItem="{Binding SelectedNote, Mode=TwoWay}"
+         Background="Transparent"
+         BorderThickness="0">
+
+                    <!-- ✅ 让每个 Item 填满宽度 -->
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                            <Setter Property="Padding" Value="0" />
+                            <Style.Triggers>
+                                <!-- 可选：悬停和选中效果 -->
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#F0F8FF" />
+                                </Trigger>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Background" Value="#E0F0FF" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <Border Background="White" CornerRadius="6" Padding="10" Margin="0,5">
+                            <!-- ✅ Border 宽度填满父容器 -->
+                            <Border Background="White" 
+                    CornerRadius="6" 
+                    Padding="10" 
+                    Margin="0,5"
+                    HorizontalAlignment="Stretch">
                                 <StackPanel>
                                     <TextBlock Text="{Binding Title}" FontWeight="Bold" FontSize="14"/>
                                     <TextBlock Text="{Binding Content}" 
-                                       TextWrapping="Wrap" 
-                                       Foreground="#666" 
-                                       FontSize="12"
-                                       MaxHeight="40"
-                                       TextTrimming="CharacterEllipsis"/>
+                           MaxWidth="400"
+                               Foreground="#666" 
+                               FontSize="12"
+                               MaxHeight="40"
+                               TextTrimming="CharacterEllipsis"/>
                                     <TextBlock Text="{Binding UpdatedAt, StringFormat='yyyy-MM-dd HH:mm'}" 
-                                       FontSize="11" Foreground="#999"/>
+                               FontSize="11" Foreground="#999"/>
                                 </StackPanel>
                             </Border>
                         </DataTemplate>
@@ -78,31 +100,32 @@
         </Border>
 
         <!-- ============ 右侧：编辑区域（完全不变） ============ -->
-        <Grid Grid.Column="1" Margin="20,0,0,0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="auto"/>
-            </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0" Text="✏️ 编辑便签" FontSize="18" FontWeight="Bold" Margin="0,0,0,15"/>
+        <Border Grid.Column="1" Margin="20,0,0,0" Background="#8BAE66" CornerRadius="8" Padding="10" >
+            <Grid  >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Text="✏️ 编辑便签" FontSize="18" FontWeight="Bold" Margin="0,0,0,15"/>
 
-            <StackPanel Grid.Row="1">
-            <TextBlock Text="标题" FontWeight="SemiBold" Margin="0,5"/>
-            <TextBox Text="{Binding Title}" FontSize="16" Padding="8" Height="40"/>
-                <TextBlock Text="内容" FontWeight="SemiBold" Margin="0,10,0,5"/>
-            </StackPanel>
-            <Grid Grid.Row="2">
-              
-            <TextBox Text="{Binding Content}" 
+                <StackPanel Grid.Row="1">
+                    <TextBlock Text="标题" FontWeight="SemiBold" Margin="0,5"/>
+                    <TextBox Text="{Binding Title}" FontSize="16" Padding="8" Height="40"/>
+                    <TextBlock Text="内容" FontWeight="SemiBold" Margin="0,10,0,5"/>
+                </StackPanel>
+                <Grid Grid.Row="2">
+
+                    <TextBox Text="{Binding Content}" 
                      FontSize="14" Padding="8" 
                      AcceptsReturn="True" 
                      TextWrapping="Wrap"
                      VerticalScrollBarVisibility="Auto"/>
-            </Grid>
+                </Grid>
 
-            <StackPanel Grid.Row="4" Orientation="Horizontal" Margin="0,15,0,0">
-                <Button Content="💾 保存" 
+                <StackPanel Grid.Row="4" Orientation="Horizontal" Margin="0,15,0,0">
+                    <Button Content="💾 保存" 
                         Command="{Binding SaveCommand}"
                         Width="100" Height="40" Margin="0,0,10,0"
                         Background="#4CAF50" FontWeight="Bold"
@@ -111,20 +134,21 @@
                      
                         Style="{StaticResource RoundedTransparentButtonStyle}"/>
 
-                <Button Content="🗑️ 删除" 
+                    <Button Content="🗑️ 删除" 
                         Command="{Binding DeleteCommand}"
                         Width="100" Height="40" Margin="0,0,10,0"
                         Background="#E74C3C" Foreground="White" FontWeight="Bold"
                          Style="{StaticResource RoundedTransparentButtonStyle}"
                         BorderThickness="0" Cursor="Hand"/>
 
-                <Button Content="➕ 新建" 
+                    <Button Content="➕ 新建" 
                         Command="{Binding NewCommand}"
                         Width="100" Height="40"
                         Background="#3498DB" Foreground="White" FontWeight="Bold"
                          Style="{StaticResource RoundedTransparentButtonStyle}"
                         BorderThickness="0" Cursor="Hand"/>
-            </StackPanel>
-        </Grid>
+                </StackPanel>
+            </Grid>
+        </Border>
     </Grid>
 </UserControl>
